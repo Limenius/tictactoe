@@ -64,9 +64,7 @@ defmodule Tictactoe.GameServer do
   defp can_move(state, x, y) do
     case {state.board[y][x], is_finished(state)} do
       {".", :false} -> :true
-      st ->
-        IO.inspect st
-        :false
+      _ -> :false
     end
   end
 
@@ -79,26 +77,26 @@ defmodule Tictactoe.GameServer do
   end
 
   defp is_finished(state) do
-    case Enum.all?(List.flatten(to_list(state.board)), &(&1 != ".")) do
-      :true -> {:true, :tie}
-      :false ->
-        case to_list(state.board) do
-          [[x, x, x],_,_] when x != "." -> {:true, x}
-          [_,[x, x, x],_] when x != "." -> {:true, x}
-          [_,_,[x, x, x]] when x != "." -> {:true, x}
-          [[x, _, _],[x,_,_],[x,_,_]] when x != "." -> {:true, x}
-          [[_, x, _],[_,x,_],[_,x,_]] when x != "." -> {:true, x}
-          [[_, _, x],[_,_,x],[_,_,x]] when x != "." -> {:true, x}
-          [[x, _, _],[_,x,_],[_,_,x]] when x != "." -> {:true, x}
-          [[_, _, x],[_,x,_],[x,_,_]] when x != "." -> {:true, x}
-          _ -> :false
+    case to_list(state.board) do
+      [[x, x, x],_,_] when x != "." -> {:true, x}
+      [_,[x, x, x],_] when x != "." -> {:true, x}
+      [_,_,[x, x, x]] when x != "." -> {:true, x}
+      [[x, _, _],[x,_,_],[x,_,_]] when x != "." -> {:true, x}
+      [[_, x, _],[_,x,_],[_,x,_]] when x != "." -> {:true, x}
+      [[_, _, x],[_,_,x],[_,_,x]] when x != "." -> {:true, x}
+      [[x, _, _],[_,x,_],[_,_,x]] when x != "." -> {:true, x}
+      [[_, _, x],[_,x,_],[x,_,_]] when x != "." -> {:true, x}
+      _ ->
+        case Enum.all?(List.flatten(to_list(state.board)), &(&1 != ".")) do
+          :true -> {:true, :tie}
+          :false -> :false
         end
     end
   end
 
   defp make_random_move(state) do
     case is_finished(state) do
-      {:yes, _} -> state
+      {:true, _} -> state
       _ ->
         x = Enum.random(0..2)
         y = Enum.random(0..2)

@@ -1,25 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
-import styled from "styled-components";
 import { updateGame } from "./reducer";
 import { Socket } from "./phoenix";
-
-const Row = styled.div`display: flex;`;
-
-const Container = styled.div`margin: 0 auto;`;
-const Button = styled.button``;
-
-const Grid = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-const Tile = styled.div`
-    height: 50px;
-    width: 50px;
-    cursor: pointer;
-`;
-
-const Status = styled.div``;
+import {
+    Container,
+    Button,
+    Grid,
+    Row,
+    Tile,
+    Status,
+    StatusText
+} from "./Components";
 
 class Board extends React.Component {
     constructor(props) {
@@ -53,26 +44,29 @@ class Board extends React.Component {
         return (
             <Container>
                 <Grid>
-                    {board.map((row, idxCol) => (
-                        <Row key={idxCol}>
+                    {board.map((row, idxRow) => (
+                        <Row idx={idxRow} key={idxRow}>
                             {row.map((tile, idx) => (
                                 <Tile
-                                    onClick={() => this.play(idx, idxCol)}
+                                    onClick={() => this.play(idx, idxRow)}
                                     key={idx}
-                                >
-                                    {tile}
-                                </Tile>
+                                    idx={idx}
+                                    tile={tile}
+                                />
                             ))}
                         </Row>
                     ))}
                 </Grid>
-                {phase !== "playing" && (
+
+                {phase !== "playing" ? (
                     <Status>
-                        {phase}
+                        <StatusText>{phase}</StatusText>
                         <Button onClick={this.reset.bind(this)}>
                             Play Again
                         </Button>
                     </Status>
+                ) : (
+                    <Status />
                 )}
             </Container>
         );
