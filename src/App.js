@@ -7,6 +7,7 @@ import Board from './Board'
 
 let store = createStore(tictactoe);
 
+
 class App extends Component {
     render() {
         return (

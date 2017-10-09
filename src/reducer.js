@@ -1,26 +1,21 @@
-const PLAY = "tictactoe/PLAY";
+const GAME_UPDATE = "tictactoe/GAME_UPDATE";
 
 const initialState = {
-    board: [[".", ".", "."], [".", ".", "."], [".", ".", "."]]
+    board: [[".", ".", "."], [".", ".", "."], [".", ".", "."]],
+    phase: "playing"
 };
 
 // Reducer
 export default function reducer(state = initialState, action = {}) {
     switch (action.type) {
-        case PLAY:
-            return {...state, board: action.board}
+        case GAME_UPDATE:
+            return { ...state, board: action.game.board, phase: action.game.phase };
 
         default:
             return state;
-
     }
 }
 
-export function play() {
-    return { type: PLAY };
+export function updateGame(game) {
+    return { type: GAME_UPDATE, game };
 }
-
-//export function getWidget() {
-//    return dispatch =>
-//        get("/widget").then(widget => dispatch(setWidget(widget)));
-//}

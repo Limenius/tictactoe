@@ -1,3 +1,4 @@
+/* eslint-disable */
 (function (global, factory) {
 typeof exports === 'object' ? factory(exports) :
 typeof define === 'function' && define.amd ? define(['exports'], factory) :
