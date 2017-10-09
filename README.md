@@ -22,13 +22,13 @@ or
 npm i
 ````
 
-
 get the server dependencies:
 
 ````
 cd server
 mix deps.get
 ````
+(note that you need to have Elixir installed).
 
 run the server:
 
@@ -42,3 +42,4 @@ And then in another terminal run the client application:
 npm run start
 ````
 
+You should be able to see the app live at http://localhost:3000/
