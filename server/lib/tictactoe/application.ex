@@ -11,7 +11,7 @@ defmodule Tictactoe.Application do
       # Start the endpoint when the application starts
       supervisor(TictactoeWeb.Endpoint, []),
       # Start your own worker by calling: Tictactoe.Worker.start_link(arg1, arg2, arg3)
-      # worker(Tictactoe.Worker, [arg1, arg2, arg3]),
+      worker(Tictactoe.GameServer, [TictactoeWeb.Endpoint]),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
