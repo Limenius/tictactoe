@@ -16,7 +16,7 @@ defmodule Tictactoe.GameServer do
 
   #API
   def start_link(_) do
-    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
+    GenServer.start_link(__MODULE__, :ok)#, name: __MODULE__)
   end
 
   def play(x, y) do
@@ -36,6 +36,16 @@ defmodule Tictactoe.GameServer do
     {:ok, %State{}}
   end
 
+  def handle_call(%{action: :get_game_state}, _, state) do
+    {:reply, %{board: to_list(state.board), phase: state.phase}, state}
+  end
+
+  def handle_cast(%{:action => :reset}, _state) do
+    state = %State{}
+    Endpoint.broadcast("game", "game_update", %{board: to_list(state.board), phase: state.phase})
+    {:noreply, state}
+  end
+
   def handle_cast(%{:action => :play, :x => x, :y => y}, state) do
     case can_move(state, x, y) do
       :true ->
@@ -49,16 +59,6 @@ defmodule Tictactoe.GameServer do
       :false -> state
     end
     {:noreply, state}
-  end
-
-  def handle_cast(%{:action => :reset}, _state) do
-    state = %State{}
-    Endpoint.broadcast("game", "game_update", %{board: to_list(state.board), phase: state.phase})
-    {:noreply, state}
-  end
-
-  def handle_call(%{action: :get_game_state}, _, state) do
-    {:reply, %{board: to_list(state.board), phase: state.phase}, state}
   end
 
   defp can_move(state, x, y) do
