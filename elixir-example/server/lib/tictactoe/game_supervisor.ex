@@ -16,7 +16,7 @@ defmodule Tictactoe.GameSupervisor do
       if rem(x, 100000) == 0 do
         IO.puts x
       end
-      Supervisor.start_child(@name, [])
+      Supervisor.start_child(@name, [x])
     end
   end
 end

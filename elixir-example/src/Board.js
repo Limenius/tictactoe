@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { updateGame } from "./reducer";
-//import { Socket } from "./phoenix";
-import ioClient from "socket.io-client";
+import { Socket } from "./phoenix";
 
 import {
   Container,
@@ -25,17 +24,24 @@ class Board extends React.Component {
   }
   componentDidMount() {
     const { updateGame } = this.props;
-    let socket = ioClient("http://localhost:3080");
-    socket.on("game:update", payload => updateGame(payload));
-    this.socket = socket;
+    let socket = new Socket("ws://localhost:4000/socket", {});
+    socket.connect();
+
+    let channel = socket.channel("game", {});
+    channel
+      .join()
+      .receive("ok", payload => updateGame(payload))
+      .receive("error", resp => console.log("Unable to join", resp));
+    channel.on("game_update", payload => updateGame(payload));
+    this.channel = channel;
   }
 
   play(x, y) {
-    this.socket.emit("game:play", { x, y });
+    this.channel.push("game:play", { x, y });
   }
 
   reset() {
-    this.socket.emit("game:reset");
+    this.channel.push("game:reset");
   }
 
   render() {

@@ -15,8 +15,8 @@ defmodule Tictactoe.GameServer do
 
 
   #API
-  def start_link(_) do
-    GenServer.start_link(__MODULE__, :ok)#, name: __MODULE__)
+  def start_link(name) do
+    GenServer.start_link(__MODULE__, :ok, name: name)
   end
 
   def play(x, y) do
@@ -33,6 +33,7 @@ defmodule Tictactoe.GameServer do
 
   #Callbacks
   def init(:ok) do
+    IO.puts "GOING"
     {:ok, %State{}}
   end
 
@@ -47,6 +48,7 @@ defmodule Tictactoe.GameServer do
   end
 
   def handle_cast(%{:action => :play, :x => x, :y => y}, state) do
+    IO.puts "PLAY"
     case can_move(state, x, y) do
       :true ->
         state = put_in state.board[y][x], "X"
