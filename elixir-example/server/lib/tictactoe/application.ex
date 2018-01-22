@@ -12,7 +12,7 @@ defmodule Tictactoe.Application do
       supervisor(TictactoeWeb.Endpoint, []),
       supervisor(Tictactoe.GameSupervisor, []),
       # Start your own worker by calling: Tictactoe.Worker.start_link(arg1, arg2, arg3)
-      worker(Tictactoe.GameServer, [Tictactoe.GameServer]),
+      worker(Tictactoe.GameServer, [[], Tictactoe.GameServer]),
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

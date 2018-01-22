@@ -11,12 +11,12 @@ defmodule Tictactoe.GameSupervisor do
     Supervisor.init([Tictactoe.GameServer], strategy: :simple_one_for_one)
   end
 
-  def start_bucket(n) do
+  def start_games(n) do
     for x <- 0..n do
       if rem(x, 100000) == 0 do
-        IO.puts x
+        IO.puts "Started " <> to_string(x) <> " games"
       end
-      Supervisor.start_child(@name, [x])
+      Supervisor.start_child(@name, [{:global, x}])
     end
   end
 end
