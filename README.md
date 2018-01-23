@@ -1,8 +1,14 @@
 # Tic-tac-toe
 
-This is an example of integration between a React+Redux client side with an Elixir/OTP GenServer
+This is an example how similar is to work with Redux and Elixir/OTP GenServers.
+
+This code was used in the demo of a talk in AgentConf'18
 
 Blog post: https://limenius.com/elixir-otp-react-redux/
+
+Don't use this code as it is as base for anything serious, please. I have cut all the corners while developing
+this to showcase an idea. There is no lobby, no player negotiation, or anything like that, and for simplicity
+there is a GenServer that will listen to every websocket connection. There are examples like https://github.com/bigardone/phoenix-battleship that are closer to a real project.
 
 ## Running it
 
